@@ -1,0 +1,29 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+darwin_data = pd.read_csv("data.csv")
+darwin_data.head()
+
+X = darwin_data.drop(['ID', 'class'], axis=1)
+y = darwin_data['class']
+
+tasks = list(range(1, 26))  # Task numbers from 1 to 25
+features = [
+    'air_time', 'disp_index', 'gmrt_in_air', 'gmrt_on_paper', 'max_x_extension',
+    'max_y_extension', 'mean_acc_in_air', 'mean_acc_on_paper', 'mean_gmrt', 
+    'mean_jerk_in_air', 'mean_jerk_on_paper', 'mean_speed_in_air', 
+    'mean_speed_on_paper', 'num_of_pendown', 'paper_time', 'pressure_mean', 
+    'pressure_var', 'total_time'
+]
+
+X2 = pd.DataFrame(index=X.index)
+
+for i in tasks:
+    task_features = [f'{feature}{i}' for feature in features]
+    X2[f'Task{i}'] = X[task_features].values.tolist()
+
+
+print(X2.head())
+
+X2.shape
